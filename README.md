@@ -1,7 +1,6 @@
 # Abstand zwischen Verteilungen – Streamlit-Demo
 
-<!-- TODO nach dem Deploy: direkt hierher den Live-Link setzen (Leerzeile davor und danach):
-**[→ Demo live ausprobieren](https://sebastianhanisch-verteilungsabstand-demo.streamlit.app/)** -->
+**[→ Demo live ausprobieren](https://sebastianhanisch-verteilungsabstand-demo.streamlit.app/)**
 
 Demo der Reihe **optimaler-transport** („Optimaler Transport: Verteilungen ineinander verschieben“) in der „Konzepte“-Reihe für die Website „Sebastian Hanisch – Operations Research und Machine Learning“. Sie setzt an zwei Annahmen an, die die Demos „Vom Zuordnen zum Transportieren“ und „Sinkhorn: weich statt scharf“ stehen lassen: *Lager, Kunden und Kosten sind gegeben; der Optimalwert ist das Ende der Rechnung, ein Preis für einen Auftrag.* und *⟨C, P_ε⟩ ist eine Näherung des Transportwerts, die mit ε → 0 besser wird.* Hier ist der Wert eine Abstandsgröße zwischen Verteilungen: Raster und Kostenwahl ändern ihn, und auch bei kleinem ε ist ⟨C, P_ε⟩ kein Abstand (der Selbstabstand ist nicht 0). Fünf Experimente prüfen die Annahme „Ein Abstand misst, wie weit zwei Verteilungen auseinanderliegen“: Verschiebung (Experiment 1), Raster (Experiment 2), Histogramm ohne Unterschied (Experiment 3), Distanz oder Divergenz (Experiment 4) und Prognosebewertung (Experiment 5).
 
