@@ -246,11 +246,11 @@ def test_jeder_regler_der_seitenleiste_hat_einen_hilfetext():
 
 
 def test_sinkhorn_distanz_steht_nie_ohne_verwendung():
-    """Jedes Auftreten von „Sinkhorn-Distanz“ in der Ansicht steht in einem Absatz, der V-a bis V-e nennt oder die Frage stellt."""
+    """Jedes Auftreten von „Sinkhorn-Distanz“ in der Ansicht steht in einem Absatz, der V-a bis V-e nennt, von fünf verschiedenen Größen spricht oder die Frage stellt."""
     at = _app()
     for m in list(at.markdown) + list(at.info) + list(at.caption):
         if "Sinkhorn-Distanz" in str(m.value):
-            assert re.search(r"V-[a-e]|Verwendung", str(m.value)), str(m.value)[:200]
+            assert re.search(r"V-[a-e]|Verwendung|fünf verschiedene Größen", str(m.value)), str(m.value)[:200]      # „fünf verschiedene Größen“: der erzeugte Expander „💬 In einfachen Worten“
 
 
 def test_kernfragen_nennen_tv_bei_zwei_spitzen_als_nicht_monoton_und_die_glatten_profile_mit_sigma():
@@ -271,3 +271,14 @@ def test_verdikt_zu_glatten_profilen_mit_sigma_0_01_nennt_keine_rundung():
     _setze(at, breite2=0.01)
     text = _texte(at)
     assert "ab 50 Zellen ist der größte Fehler 4,2e-5, " in text and "4,2e-5 (Rundung)" not in text
+
+
+def test_expander_in_einfachen_worten_verlinkt_die_erklaerseite_und_die_lesehilfe_steht_einmal():
+    at = _app()
+    expander = [e for e in at.expander if e.label == "💬 In einfachen Worten"]
+    assert len(expander) == 1
+    inhalt = " ".join(m.value for m in expander[0].markdown)
+    assert "](https://sebastianhanisch.net/abstand-zwischen-verteilungen-erklaert.html)" in inhalt
+    alles = " ".join(m.value for m in at.markdown)
+    assert "der Expander **💬 In einfachen Worten**" in alles                      # die Einleitung nennt ihn
+    assert alles.count("**Lesehilfe.**") == 1 and "](https://sebastianhanisch.net/abstand-zwischen-verteilungen-erklaert.html#fachleute)" in alles      # eine Lesehilfe, mit Link auf den Fachteil

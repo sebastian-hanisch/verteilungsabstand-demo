@@ -205,7 +205,9 @@ def exp4_c_vor_d() -> str:
 
 def exp4_d_mengen() -> str:
     d = [MESS["d_mengen"][str(m)] for m in range(1, 21)]
-    return f"D liegt in den Mengen 1 bis 20 zwischen {E.zahl(min(d), 4)} und {E.zahl(max(d), 4)}"
+    d5 = d[:5]
+    return (f"D liegt in den Mengen 1 bis 20 zwischen {E.zahl(min(d), 4)} und {E.zahl(max(d), 4)} (Faktor {E.zahl(max(d) / min(d), 1)}), "
+            f"in den hier gezeigten Mengen 1 bis 5 zwischen {E.zahl(min(d5), 4)} und {E.zahl(max(d5), 4)}")
 
 
 # ---- Experiment 5 --------------------------------------------------------------------------------------------------------------------

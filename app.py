@@ -91,10 +91,21 @@ die **Kullback-Leibler-Divergenz** (KL) und die **Jensen-Shannon-Divergenz** (JS
 Verschiebung (der Wert wächst mit der Verschiebung: beim Kasten und bei zwei Spitzen auf der Geraden, auf dem Kreis bei zwei Spitzen nicht immer), nicht für TV, KS und JS (beim Kasten sättigen sie, bei zwei Spitzen
 steigen sie und fallen wieder) und nicht für KL (beim Kasten wird sie unendlich, bei zwei Spitzen hängt sie an der Glättung), und sie gilt auf dem Raster nur mit der Rasterweite im Blick.
 
-Weiter unten: **❓ Kernfragen**, die fünf **🔬 Experimente**, **🚧 Wo die Annahmen enden** und die Expander **⚠️ Annahmen, Grenzen und bekannte Probleme** und **📐 Mathematische Formulierung**.
+Weiter unten: der Expander **💬 In einfachen Worten**, **❓ Kernfragen**, die fünf **🔬 Experimente**, **🚧 Wo die Annahmen enden** und die Expander **⚠️ Annahmen, Grenzen und bekannte Probleme** und **📐 Mathematische Formulierung**.
 Gezählt wird in Paaren, Verteilungen und Zufalls-Seeds; der Aufwand der Sinkhorn-Läufe erscheint als Zahl der **Matrix-Vektor-Produkte**, nicht in Sekunden.
 """
 )
+
+# erklaerseite:einfach:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/abstand-zwischen-verteilungen-erklaert.json, nicht von Hand ändern)
+with st.expander("💬 In einfachen Worten"):
+    st.markdown(
+        """
+Zwei Tagesprofile der Nachfrage sind fast gleich, das zweite nur um einige Stunden verschoben. Wie weit liegen sie auseinander? Die Demo stellt dieselbe Verschiebung mehreren **Maßen** gegenüber. Manche zählen nur, wie viel an derselben Stelle übereinanderliegt. Bei zwei Rechteckprofilen zeigen sie, sobald nichts mehr übereinanderliegt, bei jeder weiteren Verschiebung denselben Wert; bei zwei Hügeln steigen sie und fallen wieder. Der **Wasserstein-Abstand** fragt dagegen, wie viel Menge wie weit verschoben werden muss, und wächst mit der Verschiebung. Die **Kullback-Leibler-Divergenz** wird unendlich, sobald an einer Stelle etwas liegt, wo das andere Profil nichts hat. Außerdem ändert das Raster die Zahl, und hinter dem Wort „Sinkhorn-Distanz“ stehen fünf verschiedene Größen.
+
+[Ausführlich und verständlich erklärt, mit Fachteil](https://sebastianhanisch.net/abstand-zwischen-verteilungen-erklaert.html)
+        """
+    )
+# erklaerseite:einfach:end
 
 with st.expander("So rechnen die Abstände", expanded=True):
     st.markdown(
@@ -349,9 +360,9 @@ st.markdown(
 |---|---|---|
 | *Lager, Kunden und Kosten sind gegeben; der Optimalwert ist das Ende der Rechnung, ein Preis für einen Auftrag.* | Der Wert ist hier eine Abstandsgröße zwischen Verteilungen; Raster und Kostenwahl ändern ihn (Experiment 2). | – |
 | *⟨C, P_ε⟩ ist eine Näherung des Transportwerts, die mit ε → 0 besser wird.* | Auch dann ist es kein Abstand (Selbstabstand ≠ 0, Experiment 4); die Definition der „Sinkhorn-Distanz“ muss gewählt werden (V-a bis V-e). | – |
-| *Die Abstände werden an Verteilungen bewertet, die man genau kennt (Raster, bekannte Verschiebung), ohne Rauschen einer Stichprobe und ohne Schwelle.* | Gilt in den Experimenten 1, 2, 4 und 5; Experiment 3 zeigt das Rauschen einer Stichprobe an einem Beispiel. | Erkennen einer Änderung mit Referenz, Fenster und Schwelle (spätere Demo der Reihe). |
-| *Kontrast, keine behobene Schwäche:* Diese Demo misst den Abstand zwischen zwei Verteilungen. | Wie man von der einen zur anderen kommt (die Mischung als Gerade der Totalvariation gegen die Verschiebung als Gerade der W2-Geometrie), zeigt sie nicht. | Zwischenverteilungen (spätere Demo der Reihe). |
-| *Die Verteilungen sind exakt gegeben (Raster, geschlossene Formeln); es gibt kein n und keine Dimension d > 1.* | Experiment 3 zeigt das nur an einem Beispiel (n = 500 oder gewähltes n, eine Dimension); wie der Rauschboden mit n und Dimension wächst, zeigt diese Demo nicht. | Datenbedarf und Dimension (spätere Demo der Reihe). |
+| *Die Abstände werden an Verteilungen bewertet, die man genau kennt (Raster, bekannte Verschiebung), ohne Rauschen einer Stichprobe und ohne Schwelle.* | Gilt in den Experimenten 1, 2, 4 und 5; Experiment 3 zeigt das Rauschen einer Stichprobe an einem Beispiel. | Erkennen einer Änderung mit Referenz, Fenster und Schwelle (Demo „Verteilungsänderung erkennen – wer sieht was, und wann“ der Reihe). |
+| *Kontrast, keine behobene Schwäche:* Diese Demo misst den Abstand zwischen zwei Verteilungen. | Wie man von der einen zur anderen kommt (die Mischung als Gerade der Totalvariation gegen die Verschiebung als Gerade der W2-Geometrie), zeigt sie nicht. | Zwischenverteilungen (Demo „Zwischen zwei Verteilungen – verschieben statt mischen“ der Reihe). |
+| *Die Verteilungen sind exakt gegeben (Raster, geschlossene Formeln); es gibt kein n und keine Dimension d > 1.* | Experiment 3 zeigt das nur an einem Beispiel (n = 500 oder gewähltes n, eine Dimension); wie der Rauschboden mit n und Dimension wächst, zeigt diese Demo nicht. | Datenbedarf und Dimension (Demo „Wie viele Daten braucht ein Abstand? Dimension, Struktur, Minibatch“ der Reihe). |
 """
 )
 
@@ -382,22 +393,31 @@ with st.expander("⚠️ Annahmen, Grenzen und bekannte Probleme"):
     )
 
 with st.expander("📐 Mathematische Formulierung"):
+    # erklaerseite:lesehilfe:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/abstand-zwischen-verteilungen-erklaert.json, nicht von Hand ändern)
     st.markdown(
         r"""
-**Lesehilfe.** *Gegeben:* zwei Verteilungen $p$, $q$ auf $B$ Zellen mit Zellenmitten $t_k$ und Breite $h$ (Summe 1). *Gesucht:* ein Abstand $d(p, q)$, der angibt, wie weit sie auseinanderliegen; hier werden W1, W2², TV, KS, KL, JS und
-fünf Verwendungen von „Sinkhorn-Distanz“ verglichen.
+**Lesehilfe.** Gegeben sind zwei Verteilungen $p$, $q$ auf $B$ Zellen mit Zellenmitten $t_k$ und Breite $h$ (Summe 1). Gesucht ist ein Abstand $d(p, q)$, der angibt, wie weit sie auseinanderliegen; hier werden W1, W2², TV, KS, KL, JS und fünf Verwendungen von „Sinkhorn-Distanz“ verglichen.
 
 | Symbol | Bedeutung |
 |---|---|
 | $p_k$, $q_k$ | Zellenwerte der beiden Tagesprofile, Summe 1 |
 | $F_k$, $G_k$ | Verteilungsfunktionen $\sum_{i \le k} p_i$, $\sum_{i \le k} q_i$ |
 | $h$, $B$ | Zellenbreite $24/B$ Stunden und Zahl der Zellen |
-| $c(t, t')$ | Kosten (Bodenabstand), $\lvert t - t'\rvert^q$ mit $q = 1$ (W1) oder $q = 2$ (W2²) |
+| $c(t, t')$ | Kosten (Bodenabstand), $\lvert t - t'\rvert^{r}$ mit $r = 1$ (W1) oder $r = 2$ (W2²) |
 | $g$ | Glättung der KL je Zelle (Zähler und Nenner), ohne Renormierung |
-| $\varepsilon$, $D$ | Gewicht der Entropie; $D$ = Median von W2² über die Paare, $\varepsilon = c \cdot D$ mit $c = \varepsilon/D$ |
+| $m$ | Mischung $(p + q)/2$ in der JS |
+| $\varepsilon$, $D$ | Gewicht der Entropie; $D$ = Median von W2² über die Paare, $\varepsilon = (\varepsilon/D) \cdot D$ |
 | $a$, $b$, $P$ | zwei Verteilungen, weicher Plan $P_\varepsilon$ mit den Randverteilungen $a$, $b$ |
+| $C$, $U(a, b)$ | Kostenmatrix; Pläne mit den Randverteilungen $a$, $b$ |
+| $\mathrm{OT}_\varepsilon$ | Kosten plus Entropieterm, $\langle C, P_\varepsilon\rangle + \varepsilon\,\mathrm{KL}(P_\varepsilon \,\Vert\, a b^{\top})$ |
 | $\alpha$ | Grenze der Entropie-Nebenbedingung von V-a |
 
+[Schritt für Schritt erklärt, mit Herleitung und Literatur](https://sebastianhanisch.net/abstand-zwischen-verteilungen-erklaert.html#fachleute)
+        """
+    )
+    # erklaerseite:lesehilfe:end
+    st.markdown(
+        r"""
 **W1 und TV, KS, KL, JS.**
 $$W_1(p, q) = h \sum_{k=1}^{B} |F_k - G_k|, \qquad \mathrm{TV} = \tfrac12 \sum_k |p_k - q_k|, \qquad \mathrm{KS} = \max_k |F_k - G_k|$$
 $$\mathrm{KL}(p \,\|\, q) = \sum_{k:\, p_k > 0} p_k \ln \frac{p_k + g}{q_k + g}, \qquad \mathrm{JS}(p, q) = \tfrac12 \mathrm{KL}(p \,\|\, m) + \tfrac12 \mathrm{KL}(q \,\|\, m), \quad m = \tfrac{p + q}{2}$$
@@ -449,5 +469,5 @@ st.markdown("---")
 st.caption(
     "Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – "
     "Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). "
-    "Mehr zu den Demos: [Interaktive Demos](https://sebastianhanisch.net/demos.html)."
+    "Mehr zur Reihe: [Optimaler Transport: vom Plan zum Abstand](https://sebastianhanisch.net/konzepte-optimaler-transport.html)."
 )

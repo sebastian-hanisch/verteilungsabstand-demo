@@ -10,7 +10,7 @@ Demo der Reihe **optimaler-transport** („Optimaler Transport: Verteilungen ine
 
 ## Modell
 
-Ein **Tagesprofil** ist ein Vektor $p$ von $B$ Zellenwerten mit Summe 1 und Zellenbreite $h = 24/B$ Stunden; die Zellenmitte der Zelle $k$ liegt bei $(k + \tfrac12)\,h$. Formeln und Handrechnungen stehen im Expander „📐 Mathematische Formulierung“ der App.
+Ein **Tagesprofil** ist ein Vektor $p$ von $B$ Zellenwerten mit Summe 1 und Zellenbreite $h = 24/B$ Stunden; die Zellenmitte der Zelle $k$ liegt bei $(k + \tfrac12)\,h$. Formeln und Handrechnungen stehen im Expander „📐 Mathematische Formulierung“ der App. Eine ausführliche, verständlich geschriebene Erklärung mit Fachteil steht auf der Seite [Der Abstand zwischen Verteilungen verständlich erklärt](https://sebastianhanisch.net/abstand-zwischen-verteilungen-erklaert.html); die App fasst sie im Expander „💬 In einfachen Worten“ zusammen.
 
 - **Abstände:** der **Wasserstein-Abstand** (englisch Wasserstein distance) W1 aus den Verteilungsfunktionen, $h \sum_k |F_k - G_k|$, und W2² über die Quantilfunktionen (beide 1D, exakt auf dem Raster); der **Totalvariationsabstand** TV, der **Kolmogorov-Smirnov-Abstand** KS, die **Kullback-Leibler-Divergenz** KL mit Glättung $g$ je Zelle (ohne Renormierung; $g = 0$ ist die reine KL) und die **Jensen-Shannon-Divergenz** JS. Alle Logarithmen sind natürliche (Einheit nat).
 - **„Sinkhorn-Distanz“ in fünf Verwendungen:** **V-a** die Kosten unter der Nebenbedingung $\mathrm{KL}(P \,\|\, a b^{\top}) \le \alpha$ (Cuturi 2013, Definition 1), gerechnet in der Lagrange-Form (das $\varepsilon'$ je Paar, bei dem KL gleich $\alpha$ ist); **V-b** die Kosten $\langle C, P_\varepsilon\rangle$ unter dem weichen Plan ohne Entropieterm; **V-c** die zentrierte Größe $2W(a,b) - W(a,a) - W(b,b)$ mit $W$ = V-b (Genevay u. a. 2018, Faktor 2); **V-d** die zentrierte Größe $S_\varepsilon$ mit Entropieterm und Faktor ½ (Feydy u. a. 2019); **V-e** der Wert mit Entropieterm ohne Zentrieren. Jede Zahl der Demo nennt die Verwendung.
@@ -120,7 +120,7 @@ Glatte Gauß-Profile gleicher Breite σ = 0,04 des Tages im Abstand 0,0137: ab 5
 
 W2² zwischen N(0, 1) und N(1,5; σ₂²) auf [−6, 8]. Bei ungleicher Streuung (σ₂ = 0,7) ist der Rasterfehler geteilt durch h² 0,1658, 0,1672, 0,1660 bei 25, 100, 400 Zellen und 0,1533, 0,1643 bei 28, 112 Zellen (dort ist die Verschiebung 1,5 ein Vielfaches von h): in allen 5 Zeilen positiv (das Raster überschätzt), zwischen 0,1533 und 0,1672 (1/6 = 0,1667), auch bei deckungsgleichen Zellen. Bei gleicher Streuung (σ₂ = 1) ist er 0,2181, 0,2041, 0,1224 bei 25, 100, 400 Zellen und schwankt mit der Zellenzahl; liegen die Zellen deckungsgleich (Verschiebung 1,5 ein Vielfaches von h bei 28, 112 Zellen), ist er nur 6e-8, 1e-6 (Abschneiden der Ränder), weil das zweite Raster dann das um ganze Zellen verschobene erste ist. Die Konstante nahe 1/6 gilt hier also bei ungleicher Streuung, unabhängig von der Lage der Zellen, und nicht bei gleicher Streuung.
 
-Die Konstante nahe 1/6 ist beobachtet (an einem Paar von Normalverteilungen mit den Streuungen 1 und 0,7; die Werte der Tabelle liegen bei 0,153 bis 0,167, nicht genau bei 1/6); ihre Herleitung (zusätzliche Varianz $h^2/12$ je Verteilung) ist eine Vermutung und hier nicht bewiesen. Für gleiche Streuung erklärt sie nichts: dort ist der Fehler null oder hängt an der Zellenzahl.
+Die Konstante nahe 1/6 ist beobachtet (an einem Paar von Normalverteilungen mit den Streuungen 1 und 0,7; die Werte der Tabelle liegen bei 0,153 bis 0,167, nicht genau bei 1/6); eine Herleitung gibt es nicht. Vermutet (weder bewiesen noch in der Demo gemessen) ist, dass es am Rundungsfehler der Quantile liegt: Wäre er je Verteilung gleichverteilt über eine Zellenbreite, also mit Varianz $h^2/12$, und unabhängig, ergäben beide zusammen $2 \cdot h^2/12 = h^2/6$. Eine zusätzliche Varianz $h^2/12$ je Verteilung (Streuungen $\sigma_i^2 + h^2/12$) erklärt die Konstante dagegen nicht: Für Normalverteilungen mit den Streuungen 1 und 0,7 verkleinerte sie $W_2^2$ nach einer Handrechnung erster Ordnung, $2(\sigma_1 - \sigma_2)(1/\sigma_1 - 1/\sigma_2)\,h^2/24 \approx -0{,}011\,h^2$, statt es um etwa $h^2/6$ zu vergrößern. Für gleiche Streuung erklärt sie nichts: dort ist der Fehler null oder hängt an der Zellenzahl.
 
 ### Experiment 3: Histogramm ohne Unterschied
 
@@ -199,7 +199,7 @@ Bei **ε/D = 0,3**:
 
 D = 0,0268, ε = 0,0080; V-a: α = 0,3774, bei 18 von 276 Paaren ist die Nebenbedingung nicht wirksam (dort zeigt die Tabelle den Wert beim kleinsten ε′ = 0,003, das sind 0,11 D: eine obere Schranke des Werts unter der Nebenbedingung, im Median das 1,04-Fache, höchstens das 10,97-Fache des exakten W2²); Läufe ohne Konvergenz innerhalb von 200 000 Durchläufen: 0 bei V-b bis V-e, 1 in den Bisektionsläufen von V-a.
 
-**Dieselbe Zelle in fünf Verteilungsmengen** (Mengen 1 bis 5, je 24 Profile). Eine Zahl über „die Familie“ ist nur als Bereich über mehrere Mengen zu lesen: D liegt in den Mengen 1 bis 20 zwischen 0,0268 und 0,0601 (Faktor 2,2); die Spannen der Tabellen stammen aus den Mengen 1 bis 5.
+**Dieselbe Zelle in fünf Verteilungsmengen** (Mengen 1 bis 5, je 24 Profile). Eine Zahl über „die Familie“ ist nur als Bereich über mehrere Mengen zu lesen: D liegt in den Mengen 1 bis 20 zwischen 0,0268 und 0,0601 (Faktor 2,2), in den hier gezeigten Mengen 1 bis 5 zwischen 0,0268 und 0,0601 (D ist je Menge der Median von W2² über die Paare); die Spannen der Tabellen stammen nur aus den Mengen 1 bis 5.
 
 ε/D = 8:
 
@@ -289,7 +289,7 @@ Die Annahmen der Vorgänger und was die Demo daran ändert:
 - *Lager, Kunden und Kosten sind gegeben; der Optimalwert ist das Ende der Rechnung, ein Preis für einen Auftrag.* Hier ist der Wert eine Abstandsgröße zwischen Verteilungen; Raster und Kostenwahl ändern ihn.
 - *⟨C, P_ε⟩ ist eine Näherung des Transportwerts, die mit ε → 0 besser wird.* Auch dann ist es kein Abstand (Selbstabstand ≠ 0); die Definition der „Sinkhorn-Distanz“ muss gewählt werden.
 
-Und was die Demo für spätere Demos der Reihe stehen lässt:
+Und was die Demo für die weiteren Demos der Reihe stehen lässt:
 
 - *Die Abstände werden an Verteilungen bewertet, die man genau kennt (Raster, bekannte Verschiebung), ohne Rauschen einer Stichprobe und ohne Schwelle.*
 - *Die Verteilungen sind exakt gegeben (Raster, geschlossene Formeln); es gibt kein n und keine Dimension d > 1.* Experiment 3 zeigt Stichprobenrauschen nur an einem Beispiel und hebt diese Annahme nicht auf.
@@ -313,7 +313,7 @@ Weitere Grenzen:
 - **Eigenschaften** (`tests/test_eigenschaften.py`, je 10 bis 40 Zufallsinstanzen): Symmetrie, Selbstabstand 0, Pinsker-Ungleichung, gemeinsames Verschieben und Spiegeln ändert W1 nicht, W1 auf dem Kreis höchstens W1 auf der Geraden, W2 erfüllt die Dreiecksungleichung (0 von 2 024 in fünf Mengen), Kosten und ε mit demselben Faktor skalieren V-b bis V-e mit, V-c ≈ 2 · V-d bei kleinem ε.
 - **Randfälle:** a = b, getrennte Träger, eine Zelle, ein Dirac, zwei Spitzen in derselben Zelle, ε zu klein (Fehlermeldung statt falscher Zahl), Läufe ohne Konvergenz werden gezählt.
 - **Oberfläche:** AppTest (Standard, jedes Preset, jede Option der Auswahlregler an den Rändern, Permalink, alle Minima, alle Maxima), Layout (Schnellstart in der Seitenleiste, fester Kopf, aktives Preset, jede Reglerwirkung), Footer, Laufzeit-Importe.
-- **Testzahl:** 276 Tests (`pytest --collect-only -q tests`).
+- **Testzahl:** 277 Tests (`pytest --collect-only -q tests`).
 
 ## Dateistruktur
 
@@ -340,7 +340,7 @@ Weitere Grenzen:
 ## Bewusst nicht umgesetzt
 
 - Realdaten (Bestellzeiten, Ankünfte), andere Familien von Verteilungen in Experiment 4, eine Reihe über α bei V-a, mehr als eine Dimension, der Rauschboden von W1 gegen n und Dimension.
-- Eine Zwischenverteilung (Mittelung zweier Verteilungen) und das Erkennen einer Verteilungsänderung mit Schwelle: spätere Demos der Reihe.
+- Eine Zwischenverteilung (Mittelung zweier Verteilungen) und das Erkennen einer Verteilungsänderung mit Schwelle: die Demos [Zwischen zwei Verteilungen – verschieben statt mischen](https://sebastianhanisch-profile-verschieben-demo.streamlit.app/) und [Verteilungsänderung erkennen – wer sieht was, und wann](https://sebastianhanisch-abstand-alarm-demo.streamlit.app/) der Reihe.
 - PDF-Export.
 
 ## Lokal ausführen
@@ -366,4 +366,4 @@ Gebaut mit Streamlit, Plotly und NumPy.
 
 ---
 
-Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). Mehr zu den Demos: [Interaktive Demos](https://sebastianhanisch.net/demos.html).
+Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). Mehr zur Reihe: [Optimaler Transport: vom Plan zum Abstand](https://sebastianhanisch.net/konzepte-optimaler-transport.html).
